@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
+
 /**
  * Handles requests for the application home page.
  */
@@ -34,12 +36,29 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Locale locale, Model model) {
-		MemberDB db = new MemberDB();
-		String html = db.selectData();
-		model.addAttribute("list", html);
-
-		return "list";
+	public String list(HttpServletRequest request,Locale locale, Model model) {
+		HttpSession session = request.getSession();
+		//POST방식이 아닌데 왜 파라미터를 받지 않고 HttpServletRequest로 처리하는지?
+		try {
+			boolean isLogin = (Boolean) session.getAttribute("is_login");
+			
+			if (isLogin) {
+				//로그인이 되었다면 리스트를 보여줌
+				MemberDB db = new MemberDB();
+				String htmlString = db.selectData();
+				model.addAttribute("list", htmlString);
+				
+				return "list";
+			} else {
+				model.addAttribute("m1", "로그인이 필요합니다.");
+				return "message";
+				//로그인에 실패했다면 리스트 X
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("m1", "로그인이 필요합니다.");
+			return "message";
+		}
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.GET)
