@@ -1,0 +1,41 @@
+.wrap{
+  width:90%;
+  margin: 0 auto;
+  padding: 20px 0px;
+}
+
+form{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  background: #f1f1f1;
+  border-radius: 10px 0px;
+}
+
+input{
+  width: 60%
+  line-height: 2em;
+  /* line-height : 한 줄의 높이 */
+  /* 2em : 현재 글짜 크기의 2배 */
+  height: 2em;
+}
+
+label{
+  width:100%;
+  display: inline-block;
+  margin: 10px 0px;
+  padding-left: 0px 0px 0px 20px;
+
+}
+
+input[type="submit"]{
+  width: 90%;
+  display: inline-block;
+  margin: 10px;
+  background: #918191;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  height: 3em;
+
+}

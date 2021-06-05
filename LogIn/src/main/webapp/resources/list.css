@@ -1,0 +1,24 @@
+.wrap {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px 0px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    text-align: center;
+    background: #91A8d0 ;
+    color: #fff;
+    padding: 5px 10px;
+    border: 1px solid #f1f1f1;
+}
+
+td {
+    text-align: center;
+    padding: 5px 10px;
+    border: 1px solid #f1f1f1;
+}
