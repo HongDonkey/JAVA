@@ -25,7 +25,7 @@ label {
     padding: 0px 0px 0px 20px;
 }
 
-input[type="submit"] {
+input[type="submit"], input[type="button"] {
     width: 61%;
     display: inline-block;
     margin: 10px;

@@ -103,12 +103,45 @@ public class UserDB {
 				connection.close();
 				return false;
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
+		
 	}
 
+	public int loginDB2(String id, String pwd) { // 로그인
+		try {
+			Class.forName("org.sqlite.JDBC");
+			SQLiteConfig config = new SQLiteConfig();
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:\\tomcat\\user.db", config.toProperties());
+
+			pwd = this.sha256(pwd);// password hash sha256 -> 주로사용
+			
+			String query = "SELECT * FROM users WHERE id=? AND pwd=?";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, id);
+			preparedStatement.setString(2, pwd);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				int idx = resultSet.getInt("idx");
+				preparedStatement.close();
+				connection.close();
+				return idx;
+			} else {
+				preparedStatement.close();
+				connection.close();
+				return -1;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+		
+	}
+	
 	public String selectData() { // 회원정보 전체조회
 		String resultString = "";
 		try {
@@ -140,6 +173,7 @@ public class UserDB {
 						+ "<td>" + created + "</td>" 
 						+ "<td>" + updated + "</td>" 
 						+ "<td><a href='delete?idx=" + idx + "'>삭제하기</a></td>" + "</tr>";
+	
 			}
 			preparedStatement.close();
 			connection.close();
@@ -239,11 +273,11 @@ public class UserDB {
 			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:\\tomcat\\user.db",
 					config.toProperties());
 
-			String query = "UPDATE users SET pwd=?, name=?,address=?,updated=? WHERE id=?";
+			String query = "UPDATE users SET pwd=?,name=?,address=?,updated=? WHERE id=?";
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			String hasPwd = sha256(pwd);
 			
-			preparedStatement.setString(1, hasPwd);
+			preparedStatement.setString(1, hasPwd); // pwd..
 			preparedStatement.setString(2, name);
 			preparedStatement.setString(3, address);
 			preparedStatement.setString(4, updated);
@@ -253,8 +287,83 @@ public class UserDB {
 			preparedStatement.close();
 			connection.close();
 			if (result == 1) {
+				preparedStatement.close();
+				connection.close();
 				return true;
 			} else {
+				preparedStatement.close();
+				connection.close();
+				return false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean updateData2(int idx, String name, String address, String updated) { // 회원정보 갱신
+		try {
+			Class.forName("org.sqlite.JDBC");
+			SQLiteConfig config = new SQLiteConfig();
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:\\tomcat\\user.db",
+					config.toProperties());
+
+			String query = "UPDATE users SET name=?,address=?,updated=? WHERE idx=?";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+//			String hasPwd = sha256(pwd);
+			
+			preparedStatement.setString(1, name);
+			preparedStatement.setString(2, address);
+			preparedStatement.setString(3, updated);
+			preparedStatement.setInt(4, idx);
+
+			int result = preparedStatement.executeUpdate();
+			preparedStatement.close();
+			connection.close();
+			if (result == 1) {
+				preparedStatement.close();
+				connection.close();
+				return true;
+			} else {
+				preparedStatement.close();
+				connection.close();
+				return false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean updateData2(int idx, String pwd, String name, String address, String updated) { // 회원정보 갱신
+		try {
+			Class.forName("org.sqlite.JDBC");
+			SQLiteConfig config = new SQLiteConfig();
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:\\tomcat\\user.db",
+					config.toProperties());
+
+			String query = "UPDATE users SET pwd=?, name=?,address=?,updated=? WHERE idx=?";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			String hasPwd = sha256(pwd);
+			
+			preparedStatement.setString(1, hasPwd);
+			preparedStatement.setString(2, name);
+			preparedStatement.setString(3, address);
+			preparedStatement.setString(4, updated);
+			preparedStatement.setInt(5, idx);
+
+			int result = preparedStatement.executeUpdate();
+			preparedStatement.close();
+			connection.close();
+			if (result == 1) {
+				preparedStatement.close();
+				connection.close();
+				return true;
+			} else {
+				preparedStatement.close();
+				connection.close();
 				return false;
 			}
 
@@ -297,12 +406,12 @@ public class UserDB {
 			SQLiteConfig config = new SQLiteConfig();
 			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:\\tomcat\\user.db",
 					config.toProperties());
-			String query = "SELECT * FROM users WHERE name=? ";
+			String query = "SELECT * FROM users WHERE name LIKE ?";
 
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, InputId);
+			preparedStatement.setString(1, "%" + InputId + "%");
 			ResultSet resultSet = preparedStatement.executeQuery();
-			if (resultSet.next()) {
+			while (resultSet.next()) {
 				int idx = resultSet.getInt("idx");
 				String id = resultSet.getString("id");
 				String pwd = resultSet.getString("pwd");
@@ -346,4 +455,35 @@ public class UserDB {
 			return "";
 		}
 	}
+	
+	public Member searchDetails(String id, String pwd) { // 특정회원 조회
+		Member resultData = new Member();
+		try {
+			Class.forName("org.sqlite.JDBC");
+			SQLiteConfig config = new SQLiteConfig();
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:\\tomcat\\user.db", config.toProperties());
+
+			String query = "SELECT * FROM users WHERE id=? AND pwd=?";
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, id);
+			preparedStatement.setString(2, pwd);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				resultData.idx = resultSet.getInt("idx");
+				resultData.id = resultSet.getString("id");
+				resultData.pwd = resultSet.getString("pwd");
+				resultData.name = resultSet.getString("name");
+				resultData.birthday = resultSet.getString("birthday");
+				resultData.address = resultSet.getString("address");
+				resultData.created = resultSet.getString("created");
+				resultData.updated = resultSet.getString("updated");
+				}
+			preparedStatement.close();
+			connection.close();
+		} catch (Exception e) {
+		}
+		
+		return resultData;
+	}
+	
 }

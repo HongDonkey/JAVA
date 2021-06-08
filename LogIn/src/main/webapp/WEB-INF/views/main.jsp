@@ -17,12 +17,14 @@
   </center>
 
     <section class="wrap">
-        <a href="login">SIGN IN</a>
-        <a href="create">CREATE TABLE</a>
-        <a href="list">MEMBER LIST</a>
-        <a href="insert">SIGN UP</a>
-        <a href="select">SEARCH MEMBER</a>
-        <a href="edit">EDIT DATA</a>
+        <a href="login">SIGN IN(로그인)</a>
+        <a href="create">CREATE TABLE(테이블 생성)</a>
+        <a href="list">MEMBER LIST(회원목록)</a>
+        <a href="insert">SIGN UP(신규회원 등록)</a>
+        <a href="select">SEARCH MEMBER(검색)</a>
+        <a href="update">UPDATE DATA(수정)</a>
+        <a href="update2">YOUR ACCOUNT(수정)</a>
+        <a href="logout">LOG OUT</a>
     </section>
  
 </body>

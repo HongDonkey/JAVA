@@ -11,28 +11,32 @@
 <body>
     <section class="wrap">
      <h1>UPDATE DATA</h1>
-        <form action="update_action">
-      <b> ID & BIRTHDAY CANNOT BE CHANGED</b>
+        <form action="update_action" method="post">
+      <b> ID CANNOT BE CHANGED</b>
         <br>
         <br>
-            <label> ID 
+            <label>  
              <br> 
-                <input type="text" name="id" placeholder="아이디 변경 불가. 기존의 아이디를 입력하세요."/>
+               ID = ${id }
             </label>
-            <label> PWD 
+            <label> 현재 비밀번호:
+             <br>              	
+                <input type="password" name="pwd" placeholder="현재 비밀번호" />
+            </label> 
+              <label> 새 비밀번호: 
              <br> 
-                <input type="password" name="pwd" placeholder="비밀번호"  />
+                <input type="password" name="new_pwd" placeholder="새 비밀번호"  />
             </label>
             <label> NAME 
              <br> 
-                <input type="text" name="name" placeholder="이름"  />
+                <input type="text" name="new_name" placeholder="이름" value="${original_name }"  />
             </label>
               <label> ADDRESS 
                <br> 
-                <input type="text" name="address" placeholder="주소" />
+                <input type="text" name="new_address" placeholder="주소" value="${original_address }"/>
             </label>
 
-            <input type="submit" value="입력 완료" />
+            <input type="submit" value="수정하기" />
             <br>
             <a href="/login/list" style="margin-top: 50px;">뒤로</a>
             
