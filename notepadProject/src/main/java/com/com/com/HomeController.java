@@ -1,4 +1,4 @@
-package com.kopo.login;
+package com.com.com;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -30,46 +30,43 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		//locale : 사용자의 언어, 국가뿐 아니라 사용자 인터페이스에서 사용자가 선호하는 사항을 지정한 매개 변수의 모임이다.
-		//한국 : 2020년 6월 5일, 섭씨, kg, m, ...
-		//미국 : June 5, 2020, 화씨, lbs, peet, ...
-		
-		
-		//model : HomeController가 DataReader를 시켜 DB에서 데이터를 받아와 리턴한다. 
-		//그러면 HomController의 mode이 그 데이터를 받아 View에 넘겨주는 역할을 한다.
-		
+		// locale : 사용자의 언어, 국가뿐 아니라 사용자 인터페이스에서 사용자가 선호하는 사항을 지정한 매개 변수의 모임이다.
+		// 한국 : 2020년 6월 5일, 섭씨, kg, m, ...
+		// 미국 : June 5, 2020, 화씨, lbs, peet, ...
+
+		// model : HomeController가 DataReader를 시켜 DB에서 데이터를 받아와 리턴한다.
+		// 그러면 HomController의 mode이 그 데이터를 받아 View에 넘겨주는 역할을 한다.
+
 		return "main";
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request, Locale locale, Model model) {
-		//ServletContext
-		//생성 : 서버 시작 시
-		//제거 : 서버 중지 시
-		//web application 이 서비스 중인 동안에는 계속 존재
-		
-		
-		//HttpServletRequest
-		//생성 : Client가 요청 시
-		//삭제 : Server가 응답 시
-		//Request 중인 동안에만 존재
-		
-		
+		// ServletContext
+		// 생성 : 서버 시작 시
+		// 제거 : 서버 중지 시
+		// web application 이 서비스 중인 동안에는 계속 존재
+
+		// HttpServletRequest
+		// 생성 : Client가 요청 시
+		// 삭제 : Server가 응답 시
+		// Request 중인 동안에만 존재
+
 		HttpSession session = request.getSession();
-		//HttpSession 
-		//생성 : Client 최초 접속 시
-		//제거 : Client 접속 종료 시
-		//Client가 접속 중인 동안에만 존재
-		
-		//request.getSession()
-		//서버에 생성된 세션이 있다면 세션을 반환하고, 없다면 새 세션을 생성하여 반환한다. (인수 default가 true)
-		
+		// HttpSession
+		// 생성 : Client 최초 접속 시
+		// 제거 : Client 접속 종료 시
+		// Client가 접속 중인 동안에만 존재
+
+		// request.getSession()
+		// 서버에 생성된 세션이 있다면 세션을 반환하고, 없다면 새 세션을 생성하여 반환한다. (인수 default가 true)
+
 		try {
 			boolean isLogin = (Boolean) session.getAttribute("is_login");
 
 			if (isLogin) {
 //				session.setAttribute("is_login", false);
-				session.invalidate(); //세션 무효화
+				session.invalidate(); // 세션 무효화
 				model.addAttribute("m1", "로그아웃 완료");
 				return "message";
 			} else {
@@ -85,9 +82,9 @@ public class HomeController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String create(Locale locale, Model model) {
-		UserDB userDB = new UserDB();
-		userDB.createDB();
-		boolean isSuccess = userDB.createDB();
+		MemberDB mb = new MemberDB();
+		mb.createTable();
+		boolean isSuccess = mb.createTable();
 		if (isSuccess) {
 			model.addAttribute("m1", "테이블이 생성되었습니다.");
 		} else {
@@ -116,10 +113,10 @@ public class HomeController {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String now = sdf.format(Calendar.getInstance().getTime());
-		Member member = new Member(id, pwd, name, birthday, address, now, now);
+		Member mb = new Member(id, pwd, name, birthday, address, now, now);
 
-		UserDB userDB = new UserDB();
-		boolean isSuccess = userDB.insertDB(member);
+		MemberDB db = new MemberDB();
+		boolean isSuccess = db.insertData(mb);
 		if (isSuccess) {
 			model.addAttribute("m1", "데이터가 입력되었습니다.");
 		} else {
@@ -135,8 +132,8 @@ public class HomeController {
 			boolean isLogin = (Boolean) session.getAttribute("is_login");
 
 			if (isLogin) {
-				UserDB db = new UserDB();
-				String htmlString = db.selectData();
+				MemberDB mb = new MemberDB();
+				String htmlString = mb.selectData();
 				model.addAttribute("list", htmlString);
 
 				return "list";
@@ -153,14 +150,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public String updateMethod(HttpServletRequest request, Locale locale, Model model) {
-	
-			try {
-				request.setCharacterEncoding("utf-8");
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-	
+
 		HttpSession session = request.getSession();
 		try {
 			boolean isLogin = (Boolean) session.getAttribute("is_login");
@@ -171,10 +161,10 @@ public class HomeController {
 				String notHashedPwd = (String) session.getAttribute("login_pwd");
 				String hasPwd = sha256(notHashedPwd);
 				// 이름으로 검색, 해당되는 유저 정보를 가져온다.
-				UserDB userDB = new UserDB();
+				MemberDB db = new MemberDB();
 
 				Member resultData = new Member();
-				resultData = userDB.searchDetails(id, hasPwd); // 종료해야한다.
+				resultData = db.searchDetails(id, hasPwd); // 종료해야한다.
 				// System.out.println(resultData.name);
 
 				model.addAttribute("id", id);
@@ -204,7 +194,7 @@ public class HomeController {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String now = sdf.format(Calendar.getInstance().getTime());
-		UserDB userDB = new UserDB();
+		MemberDB db = new MemberDB();
 		HttpSession session = request.getSession();
 
 		// 현재 비밀번호와 세션 비밀번호, 두 비밀번호가 같아야 변경이 가능!
@@ -220,7 +210,7 @@ public class HomeController {
 			String new_name = request.getParameter("new_name");
 			String new_address = request.getParameter("new_address");
 
-			boolean isSuccess = userDB.updateData(id, new_pwd, new_name, new_address, now);
+			boolean isSuccess = db.updateData(id, new_pwd, new_name, new_address, now);
 			if (isSuccess) {
 				session.invalidate();
 				session = request.getSession();
@@ -246,8 +236,8 @@ public class HomeController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public String delete(Locale locale, Model model, @RequestParam("idx") int idx) {
 
-		UserDB userDB = new UserDB();
-		boolean isSuccess = userDB.deleteData(idx);
+		MemberDB mb = new MemberDB();
+		boolean isSuccess = mb.deleteData(idx);
 		if (isSuccess) {
 			model.addAttribute("m1", "데이터가 삭제되었습니다.");
 		} else {
@@ -263,8 +253,8 @@ public class HomeController {
 
 	@RequestMapping(value = "/select_action", method = RequestMethod.GET)
 	public String selectAction(Locale locale, Model model, @RequestParam("name") String name) {
-		UserDB userDB = new UserDB();
-		String htmlString = userDB.searchData(name);
+		MemberDB db = new MemberDB();
+		String htmlString = db.searchData(name);
 		model.addAttribute("list", htmlString);
 		return "list";
 	}
@@ -284,9 +274,9 @@ public class HomeController {
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
 
-		UserDB userDB = new UserDB();
+		MemberDB db = new MemberDB();
 //		boolean isSuccess = userDB.loginDB(id, pwd);
-		int userIdx = userDB.loginDB2(id, pwd);
+		int userIdx = db.loginDB2(id, pwd);
 		if (userIdx > 0) {
 			HttpSession session = request.getSession();
 
@@ -312,7 +302,7 @@ public class HomeController {
 			return "";
 		}
 	}
-	
+
 	@RequestMapping(value = "/update2", method = RequestMethod.GET)
 	public String updateMethod2(HttpServletRequest request, Locale locale, Model model) {
 		HttpSession session = request.getSession();
@@ -323,12 +313,12 @@ public class HomeController {
 				// 세션에서 idx 가져오기
 				int idx = (Integer) session.getAttribute("user_idx");
 
-				UserDB userDB = new UserDB();
-				Member p1 = userDB.detailsData(idx);
+				MemberDB db = new MemberDB();
+				Member mb = db.detailsData(idx);
 
-				model.addAttribute("idx", p1.idx);
-				model.addAttribute("original_name", p1.name);
-				model.addAttribute("original_address", p1.address);
+				model.addAttribute("idx", mb.idx);
+				model.addAttribute("original_name", mb.name);
+				model.addAttribute("original_address", mb.address);
 
 				return "update2";
 			} else {
@@ -352,7 +342,7 @@ public class HomeController {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String now = sdf.format(Calendar.getInstance().getTime());
-		UserDB userDB = new UserDB();
+		MemberDB db = new MemberDB();
 		HttpSession session = request.getSession();
 
 		String idxString = request.getParameter("idx");
@@ -360,19 +350,33 @@ public class HomeController {
 		String pwd = request.getParameter("new_pwd");
 		String name = request.getParameter("new_name");
 		String new_address = request.getParameter("new_address");
-		
+
 		boolean isSuccess = false;
 		if (pwd.isEmpty()) {
-			isSuccess = userDB.updateData2(idx, name, new_address, now);
+			isSuccess = db.updateData2(idx, name, new_address, now);
 		} else {
-			isSuccess = userDB.updateData2(idx, pwd, name, new_address, now);
+			isSuccess = db.updateData2(idx, pwd, name, new_address, now);
 		}
 		if (isSuccess) {
 			model.addAttribute("m1", "정보가 수정되었습니다.");
 		} else {
 			model.addAttribute("m1", "DB error");
 		}
-		
+
 		return "message";
+	}
+
+	@RequestMapping(value = "/findID", method = RequestMethod.GET)
+	public String findID(Locale locale, Model model) {
+		return "findID";
+	}
+
+	@RequestMapping(value = "/findID_action", method = RequestMethod.GET)
+	public String findID_action(Locale locale, Model model,
+			@RequestParam("name") String name, @RequestParam("birthday") String birthday) {
+		MemberDB db = new MemberDB();
+		int idx = db.findID(name, birthday);
+		model.addAttribute("findedID", idx);
+		return "findedID";
 	}
 }

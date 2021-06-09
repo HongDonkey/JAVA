@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+.wrap {
+	//background: #f1f1f1;
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+a {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    margin: 10px 0px;
+    background: #f1f1f1;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.4s ease;
+}
+
+a:hover, a:active {
+    background: #999;
+}
