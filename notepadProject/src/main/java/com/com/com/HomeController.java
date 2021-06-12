@@ -39,6 +39,8 @@ public class HomeController {
 
 		return "main";
 	}
+		
+	
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request, Locale locale, Model model) {
@@ -113,7 +115,7 @@ public class HomeController {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String now = sdf.format(Calendar.getInstance().getTime());
-		Member mb = new Member(id, pwd, name, birthday, address, now, now);
+		Member mb = new Member(id, pwd, name, address, birthday, now, now);
 
 		MemberDB db = new MemberDB();
 		boolean isSuccess = db.insertData(mb);
@@ -282,9 +284,10 @@ public class HomeController {
 
 			session.setAttribute("is_login", true);
 			session.setAttribute("user_idx", userIdx);
-			return "redirect:/";
+			return "loginAfterMain";
 		}
-		return "redirect:/login";
+		model.addAttribute("m1", "아이디나 비밀번호가 맞지 않습니다.");
+		return "loginFailedMessage";
 	}
 
 	public String sha256(String msg) { // 비밀번호 암호화

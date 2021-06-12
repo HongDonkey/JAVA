@@ -18,11 +18,11 @@ public class MemberDB {
 			// open
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 			// use
-			String query = "CREATE TABLE Member (idx INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, pwd TEXT, name, birthday TEXT, address TEXT, created TEXT, updated TEXT)";
+			String query = "CREATE TABLE Member (idx INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, pwd TEXT, name TEXT, birthday TEXT, address TEXT, created TEXT, updated TEXT)";
 
 			Statement statement = connection.createStatement();
 			int result = statement.executeUpdate(query);
@@ -45,7 +45,7 @@ public class MemberDB {
 			// open
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 //			String query = "INSERT INTO Member (id, pwd, name, address, birthday, created, updated) VALUES "
@@ -114,7 +114,7 @@ public class MemberDB {
 			// open
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 			String query = "SELECT * FROM Member";
@@ -126,13 +126,13 @@ public class MemberDB {
 				String id = resultSet.getString("id");
 				String pwd = resultSet.getString("pwd");
 				String name = resultSet.getString("name");
-				String address = resultSet.getString("address");
 				String birthday = resultSet.getString("birthday");
+				String address = resultSet.getString("address");
 				String created = resultSet.getString("created");
 				String updated = resultSet.getString("updated");
 				resultString += "<tr>";
 				resultString = resultString + "<td>" + idx + "</td><td>" + id + "</td><td>" + pwd + "</td><td>" + name
-						+ "</td><td>" + address + "</td><td>" + birthday + "</td><td>" + created + "</td><td>" + updated
+						+ "</td><td>" + birthday + "</td><td>" + address + "</td><td>" + created + "</td><td>" + updated
 						+ "</td><td><a href='update?idx=" + idx + "'>수정하기</a></td><td><a href='delete_action?idx=" + idx
 						+ "'>삭제하기</a></td>";
 
@@ -154,7 +154,7 @@ public class MemberDB {
 			// open
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 			String query = "SELECT * FROM Member WHERE idx=?";
@@ -188,7 +188,7 @@ public class MemberDB {
 			// open
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 			String query = "UPDATE Member SET pwd=?,name=?,address=?,updated=? WHERE id=?";
@@ -229,7 +229,7 @@ public class MemberDB {
 			// open
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 			String query = "UPDATE Member SET name=?,address=?,updated=? WHERE idx=?";
@@ -267,7 +267,7 @@ public class MemberDB {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 			String query = "UPDATE Member SET pwd=?, name=?,address=?,updated=? WHERE idx=?";
@@ -304,7 +304,7 @@ public class MemberDB {
 			// open
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 			String query = "DELETE FROM Member WHERE idx=?";
@@ -335,7 +335,7 @@ public class MemberDB {
 			// open
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 			String query = "SELECT * FROM Member WHERE name LIKE ?";
@@ -348,8 +348,8 @@ public class MemberDB {
 				String id = resultSet.getString("id");
 				String pwd = resultSet.getString("pwd");
 				String name = resultSet.getString("name");
-				String address = resultSet.getString("address");
 				String birthday = resultSet.getString("birthday");
+				String address = resultSet.getString("address");				
 				String created = resultSet.getString("created");
 				String updated = resultSet.getString("updated");
 				resultString += "<tr>";
@@ -377,7 +377,7 @@ public class MemberDB {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 			pwd = this.sha256(pwd);
@@ -405,7 +405,7 @@ public class MemberDB {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db", config.toProperties());
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db", config.toProperties());
 
 			pwd = this.sha256(pwd);// password hash sha256 -> 주로사용
 			
@@ -437,7 +437,7 @@ public class MemberDB {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 			String pwd = sha256(password);
@@ -466,7 +466,7 @@ public class MemberDB {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 			String query = "SELECT * FROM Member WHERE id=? AND pwd=?";
@@ -516,7 +516,7 @@ public class MemberDB {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig();
-			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608Member.db",
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + "c:/tomcat/210608noteMember.db",
 					config.toProperties());
 
 			String query = "SELECT idx, id FROM Member WHERE name=? AND birthday=?";

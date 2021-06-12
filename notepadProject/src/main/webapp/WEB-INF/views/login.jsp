@@ -22,7 +22,11 @@
             </label>
             <input type="submit" value="Sign In" />
         </form>
+        <br><br>
         <a href="findID" style="margin-top: 50px;">아이디 찾기</a>
+        <br>
+        <br>
+        <br>
         <a href="/com" style="margin-top: 50px;">비밀번호 찾기</a>
     </section>
 </body>
